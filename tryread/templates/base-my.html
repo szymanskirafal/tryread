@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "base-for-all.html" %}
 {% load static i18n %}
 {% block main %}
 
@@ -11,7 +11,8 @@
   {% endif %}
 
 
-
+  {% include "_nav2.html" %}
+  
   {% block content %}
     <p>Use this document as a way to quick start any new project.</p>
   {% endblock content %}

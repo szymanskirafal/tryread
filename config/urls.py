@@ -12,6 +12,16 @@ urlpatterns = [
         TemplateView.as_view(template_name="pages/about.html"),
         name="about",
     ),
+    path(
+        "reader/",
+        TemplateView.as_view(template_name="pages/reader.html"),
+        name="reader",
+    ),
+    path(
+        "writer/",
+        TemplateView.as_view(template_name="pages/writer.html"),
+        name="writer",
+    ),
     # Django Admin, use {% url 'admin:index' %}
     path(settings.ADMIN_URL, admin.site.urls),
     # User management

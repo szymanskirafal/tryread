@@ -1,0 +1,23 @@
+{% extends "base-my.html" %}
+
+{% block content %}
+
+
+{% include "_nav2.html" %}
+
+<div class="container" id="reader">
+  <br><br>
+  <h2>Wouldn't it be great to read books for free and pay AFTER you read and whatever you want and only if the book was really good?</h2>
+  <p class="py-4">
+    Say, you’d like to read something. You don't have much time but you really like to read, you wish you read more, you miss it but... you don’t know what to read, you don't have time to search, you don't want to read anything. You read few reviews and still don’t know which book to buy. You choose one, pay 15 bucks and… it’s not so good but you paid so you read to the end with hope another book will be a bit better. Or you don’t buy any book, you download pirated copies of three books and try them. One is poor, one is so so, but the third one is really good, you read it for few days and you realize you will finish this piracy copy, you don’t like it but you won’t buy a book you’re in the middle of. You may think the author is great so you will buy her another one. You love to read you don’t have nothing to pay the author if the book is really good. In fact you'd like to appreciate the author. This is how Tryread.com works. You don't have to pay but you can. It can be 1 USD, or 5 or 20 if you want. The best of it is the author gets 98 %. Normally, when you pay 15 USD for a book, the author gets only 3 USD. Or less :( If you would pay this 15 USD here, the author gets 14,70 USD. But you don't have to pay 15 USD. You can pay whatever you want and only if you like what you read.
+  </p>
+  <p>
+    The payment option is not the only advantage. Tryread lets authors publish instantly, whenever they want to. You can read what they write immidiately. There's no any publishing process between you and the authors. Advanced searching is another feature. You can search books using tags like "Rome" and filters like "no violence". Another thing is you can chat with authors.
+  </p>
+  <div class="text-center">
+    <a href="{% url 'account_signup' %}" class="btn btn-lg btn-outline-secondary" role="button">Sign Up</a>
+  </div>
+</div>
+<br><br>
+
+{% endblock content %}
