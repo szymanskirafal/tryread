@@ -1,0 +1,94 @@
+{% extends "base-my.html" %}
+{% block content %}
+
+
+{% include "_nav2.html" %}
+<div class="container py-5">
+  <h1>Add new book</h1>
+  <p>Hello dear Author</p>
+  <form action="/your-name/" method="post">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="Submit" />
+  </form>
+
+
+
+  <form>
+    <div class="form-group">
+      <label for="exampleFormControlTextarea1">Title</label>
+      <input class="form-control" type="text" placeholder="Enter title of the book here">
+    </div>
+    <div class="form-group">
+      <label for="exampleFormControlTextarea1">Subtitle</label>
+      <input class="form-control" type="text" placeholder="Enter second title here (optional)">
+    </div>
+    <div class="form-group">
+      <label for="exampleFormControlTextarea1">Description</label>
+      <textarea class="form-control" id="exampleFormControlTextarea1" rows="5">Enter short description here</textarea>
+    </div>
+    <div class="form-group">
+      <label for="xampleFormControlSelect1">Category</label>
+      <select class="form-control" id="exampleFormControlSelect1">
+
+        <option>Romance</option>
+        <option>Thriller</option>
+        <option>Historic</option>
+        <option>Life</option>
+        <option>Drama</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="exampleFormControlTags">Tags</label>
+      <input class="form-control" type="text" placeholder="Enter tags here">
+    </div>
+    <p>
+      <button class="btn btn-outline-secondary" type="button" data-toggle="collapse" data-target="#collapseFilters" aria-expanded="false" aria-controls="collapseExample">
+        Filters
+      </button>
+    </p>
+    <div class="collapse" id="collapseFilters">
+      <div class="card card-body">
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+          <label class="form-check-label" for="defaultCheck1">
+            Default checkbox
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+          <label class="form-check-label" for="defaultCheck1">
+            Default checkbox
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+          <label class="form-check-label" for="defaultCheck1">
+            Default checkbox
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+          <label class="form-check-label" for="defaultCheck1">
+            Default checkbox
+          </label>
+        </div>
+        <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+          <label class="form-check-label" for="defaultCheck1">
+            Default checkbox
+          </label>
+        </div>
+      </div>
+      <br><br>
+    </div>
+
+  </form>
+  <br><br>
+
+
+
+</div>
+
+
+{% endblock content %}

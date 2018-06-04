@@ -9,5 +9,10 @@ urlpatterns = [
         view=views.WriterTemplateView.as_view(),
         name="writer"
     ),
+    path(
+        "add-book",
+        view=views.WriterAddBookCreateView.as_view(),
+        name="add_book"
+    ),
 
 ]
