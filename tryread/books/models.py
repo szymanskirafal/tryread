@@ -3,14 +3,6 @@ from django.db import models
 from tryread.users.models import User
 
 
-class TimeStampedModel(models.Model):
-    created = models.DateTimeField(auto_now_add = True)
-    modified = models.DateTimeField(auto_now = True)
-
-    class Meta:
-        abstract = True
-
-
 class Book(models.Model):
     ROMANCE = 'ROM'
     THRILLER = 'THR'
@@ -28,9 +20,10 @@ class Book(models.Model):
         (DRAMA, 'Drama'),
         (HISTORIC, 'Historic'),
         (BIOGRAPHY, 'Biography'),
-        (KIDS, 'Kids'),
-    )
+        (KIDS, 'Kids'),)
 
+    created = models.DateTimeField(auto_now_add = True)
+    modified = models.DateTimeField(auto_now = True)
     author = models.ForeignKey(User, on_delete = models.CASCADE, related_name = 'books_written')
     title = models.CharField(max_length = 150)
     subtitle = models.CharField(max_length = 300, blank = True)
@@ -39,12 +32,11 @@ class Book(models.Model):
     category = models.CharField(
         max_length=3,
         choices=CATEGORIES,
-        default=ROMANCE,
-    )
+        default=ROMANCE,)
     tags = models.CharField(max_length = 250, blank = True)
 
     def __str__(self):
-        return self.title, self.author
+        return self.title
 
     def get_absolute_url(self):
         #return reverse('company_details', kwargs={'pk': self.id})

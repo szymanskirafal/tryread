@@ -14,5 +14,10 @@ urlpatterns = [
         view=views.WriterAddBookCreateView.as_view(),
         name="add_book"
     ),
+    path(
+        "books",
+        view=views.WriterBooksListView.as_view(),
+        name="books"
+    ),
 
 ]
