@@ -6,7 +6,7 @@
 <div class="container py-5">
   <h1>Your books</h1>
   {% for book in books %}
-    <p>Title: {{ book.title }}</p>
+    <a href="{% url 'writer:book' book.pk %}"><p>Title: {{ book.title }}</p></a>
   {% endfor %}
 
 </div>

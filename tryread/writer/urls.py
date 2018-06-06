@@ -5,19 +5,24 @@ from . import views
 app_name = "writer"
 urlpatterns = [
     path(
-        "",
+        '',
         view=views.WriterTemplateView.as_view(),
-        name="writer"
+        name='writer'
     ),
     path(
-        "add-book",
+        'add-book',
         view=views.WriterAddBookCreateView.as_view(),
-        name="add_book"
+        name='add_book'
     ),
     path(
-        "books",
+        'book/<int:pk>/',
+        view=views.WriterBookDetailView.as_view(),
+        name='book'
+    ),
+    path(
+        'books',
         view=views.WriterBooksListView.as_view(),
-        name="books"
+        name='books'
     ),
 
 ]
