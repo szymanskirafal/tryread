@@ -1,0 +1,24 @@
+{% extends "base-my.html" %}
+{% block content %}
+
+
+{% include "_nav2.html" %}
+<div class="container py-5">
+  <h1>Add Text</h1>
+  {{ object }}
+  <p>You're adding text section to {{ chapter }} in {{ chapter.book }}</p>
+  <form method="post">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="Submit" />
+  </form>
+
+
+  <br><br>
+
+
+
+</div>
+
+
+{% endblock content %}

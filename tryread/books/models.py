@@ -57,8 +57,11 @@ class Book(models.Model):
 class Chapter(TimeStampedModel):
     book = models.ForeignKey(Book, on_delete = models.CASCADE, related_name = 'chapters')
     title = models.CharField(max_length = 150)
+    nr = models.PositiveSmallIntegerField()
     slug_chapter = models.SlugField(max_length = 150)
-    text = models.TextField()
+
+    class Meta:
+        ordering = ['nr']
 
     def __str__(self):
         return self.title
@@ -70,3 +73,15 @@ class Chapter(TimeStampedModel):
     def get_absolute_url(self):
         #return reverse('book', kwargs={'pk': self.id})
         pass
+
+class Text(TimeStampedModel):
+    chapter = models.ForeignKey(Chapter, on_delete = models.CASCADE, related_name = 'texts')
+    text = models.TextField(max_length=20000)
+
+class Dialog(TimeStampedModel):
+    chapter = models.ForeignKey(Chapter, on_delete = models.CASCADE, related_name = 'dialogs')
+    dialog = models.TextField(max_length=20000)
+
+#class Picture(TimeStampedModel):
+#    chapter = models.ForeignKey(Chapter, on_delete = models.CASCADE, related_name = 'pictures')
+#    picture = models.ImageField(upload_to=None, height_field=None, width_field=None, max_length=100, **options)

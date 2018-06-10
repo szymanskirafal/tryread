@@ -4,9 +4,20 @@
 
 {% include "_nav2.html" %}
 <div class="container py-5">
-  <h1>Chapter {{ chapter.title }}</h1>
+  <h1>Chapter {{ chapter.nr }}. {{ chapter.title }}</h1>
   <p>from book {{ chapter.book }}</p>
   <br><br>
+  <div class="btn-group">
+    <button type="button" class="btn btn-lg btn-outline-dark dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+      Add section
+    </button>
+    <div class="dropdown-menu">
+      <a class="dropdown-item" href="{% url 'writer:add_text' chapter.book.slug chapter.slug_chapter %}">Text</a>
+      <a class="dropdown-item" href="#">Dialog</a>
+      <a class="dropdown-item" href="#">Picture</a>
+
+    </div>
+  </div>
   <p>{{ chapter.text }}</p>
 
 </div>

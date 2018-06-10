@@ -25,9 +25,14 @@ urlpatterns = [
         name='add_chapter'
     ),
     path(
-        'chapter/<slug:slug_chapter>/',
+        '<slug:slug>/<slug:slug_chapter>/',
         view=views.WriterChapterDetailView.as_view(),
         name='chapter'
+    ),
+    path(
+        '<slug:slug>/<slug:slug_chapter>/add-text/',
+        view=views.WriterAddTextCreateView.as_view(),
+        name='add_text'
     ),
     path(
         'books',

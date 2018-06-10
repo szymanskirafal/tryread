@@ -3,8 +3,8 @@ from django.shortcuts import redirect
 from django.urls import reverse
 from django.views.generic import CreateView, DetailView, ListView, TemplateView
 
-from books.forms import BookForm, ChapterForm
-from books.models import Book, Chapter
+from books.forms import BookForm, ChapterForm, TextForm
+from books.models import Book, Chapter, Text
 
 
 class WriterAddBookCreateView(LoginRequiredMixin, CreateView):
@@ -28,6 +28,30 @@ class WriterAddChapterCreateView(LoginRequiredMixin, CreateView):
         form.instance.book = book
         return super().form_valid(form)
 
+class WriterAddTextCreateView(LoginRequiredMixin, CreateView):
+    model = Text
+    form_class = TextForm
+    template_name = "writer/add-text.html"
+    success_url = '/chapter/'
+
+    def form_valid(self, form):
+        chapter = Chapter.objects.get(slug = self.kwargs['slug_chapter'])
+        form.instance.chapter = chapter
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        """Insert the single object into the context dict."""
+        context = {}
+
+        if self.object:
+            context['object'] = self.object
+            chapter_slug = self.kwargs['chapter.slug_chapter']
+            context['chapter'] = Chapter.objects.get(chapter_slug = chapter_slug)
+            context_object_name = self.get_context_object_name(self.object)
+            if context_object_name:
+                context[context_object_name] = self.object
+        context.update(kwargs)
+        return super().get_context_data(**context)
 
 
 class BooksWrittenByCurrentUserMixin():
@@ -65,13 +89,12 @@ class WriterChapterDetailView(LoginRequiredMixin, DetailView):
     slug_url_kwarg = "slug_chapter"
     template_name = 'writer/chapter.html'
 
-    def get(self, request, *args, **kwargs):
-        print('-'*10, 'self.args: ', self.args)
-        print('*'*10)
-        print('-'*10, 'self.kwargs: ', self.kwargs)
-        self.object = self.get_object()
-        context = self.get_context_data(object=self.object)
-        return self.render_to_response(context)
+    def get_queryset(self):
+        books = Book.objects.all().filter(author=self.request.user)
+        slug = self.kwargs['slug']
+        book = Book.objects.get(slug = slug)
+        queryset = Chapter.objects.all().filter(book=book).filter(book__in = books)
+        return queryset
 
 
 
