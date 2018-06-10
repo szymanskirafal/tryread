@@ -1,7 +1,14 @@
 from django.db import models
+from django.utils.text import slugify
 
 from tryread.users.models import User
 
+class TimeStampedModel(models.Model):
+    created = models.DateTimeField(auto_now_add = True)
+    modified = models.DateTimeField(auto_now = True)
+
+    class Meta:
+        abstract = True
 
 class Book(models.Model):
     ROMANCE = 'ROM'
@@ -37,6 +44,28 @@ class Book(models.Model):
 
     def __str__(self):
         return self.title
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        super(Book, self).save(*args, **kwargs)
+
+    def get_absolute_url(self):
+        #return reverse('book', kwargs={'pk': self.id})
+        pass
+
+
+class Chapter(TimeStampedModel):
+    book = models.ForeignKey(Book, on_delete = models.CASCADE, related_name = 'chapters')
+    title = models.CharField(max_length = 150)
+    slug_chapter = models.SlugField(max_length = 150)
+    text = models.TextField()
+
+    def __str__(self):
+        return self.title
+
+    def save(self, *args, **kwargs):
+        self.slug_chapter = slugify(self.title)
+        super(Chapter, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
         #return reverse('book', kwargs={'pk': self.id})

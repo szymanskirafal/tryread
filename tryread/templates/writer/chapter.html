@@ -1,0 +1,15 @@
+{% extends "base-my.html" %}
+{% block content %}
+
+
+{% include "_nav2.html" %}
+<div class="container py-5">
+  <h1>Chapter {{ chapter.title }}</h1>
+  <p>from book {{ chapter.book }}</p>
+  <br><br>
+  <p>{{ chapter.text }}</p>
+
+</div>
+
+
+{% endblock content %}
