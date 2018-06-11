@@ -25,4 +25,5 @@ class TextForm(ModelForm):
         model = Text
         fields = [
             'text',
+            'nr',
         ]

@@ -10,29 +10,29 @@ urlpatterns = [
         name='writer'
     ),
     path(
-        'add-book',
-        view=views.WriterAddBookCreateView.as_view(),
-        name='add_book'
+        'book-create/',
+        view=views.WriterBookCreateView.as_view(),
+        name='book_create'
     ),
     path(
-        '<slug:slug>/',
+        '<slug:slug>/<int:pk>/',
         view=views.WriterBookDetailView.as_view(),
         name='book'
     ),
     path(
-        '<slug:slug>/add-chapter/',
-        view=views.WriterAddChapterCreateView.as_view(),
-        name='add_chapter'
+        '<slug:slug>/<int:pk>/chapter-create/',
+        view=views.WriterChapterCreateView.as_view(),
+        name='chapter_create'
     ),
     path(
-        '<slug:slug>/<slug:slug_chapter>/',
+        '<slug:slug>/<slug:slug_chapter>/<int:pk>/',
         view=views.WriterChapterDetailView.as_view(),
         name='chapter'
     ),
     path(
-        '<slug:slug>/<slug:slug_chapter>/add-text/',
-        view=views.WriterAddTextCreateView.as_view(),
-        name='add_text'
+        'chapter/<int:pk>/text-create/',
+        view=views.WriterTextCreateView.as_view(),
+        name='text_create'
     ),
     path(
         'books',

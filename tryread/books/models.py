@@ -77,6 +77,12 @@ class Chapter(TimeStampedModel):
 class Text(TimeStampedModel):
     chapter = models.ForeignKey(Chapter, on_delete = models.CASCADE, related_name = 'texts')
     text = models.TextField(max_length=20000)
+    nr = models.PositiveSmallIntegerField(default=1)
+    class Meta:
+        ordering = ['nr']
+
+    def __str__(self):
+        return self.text
 
 class Dialog(TimeStampedModel):
     chapter = models.ForeignKey(Chapter, on_delete = models.CASCADE, related_name = 'dialogs')

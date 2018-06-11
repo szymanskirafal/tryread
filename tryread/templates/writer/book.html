@@ -12,12 +12,12 @@
   <br><br>
   <p>Chapters:</p>
   {% for chapter in chapters %}
-    <a href="{% url 'writer:chapter' book.slug chapter.slug_chapter %}">{{ chapter.nr }}. {{ chapter }}</a><br><br>
+    <a href="{% url 'writer:chapter' book.slug chapter.slug_chapter chapter.pk %}">{{ chapter.nr }}. {{ chapter }}</a><br><br>
   {% endfor %}
   <br><br>
 
 
-  <a href="{% url 'writer:add_chapter' book.slug %}" class="btn btn-lg btn-outline-dark" role="button">Add chapter</a>
+  <a href="{% url 'writer:chapter_create' book.slug book.pk %}" class="btn btn-lg btn-outline-dark" role="button">New chapter</a>
 
 </div>
 

@@ -6,8 +6,12 @@ from django.views.generic import CreateView, DetailView, ListView, TemplateView
 from books.forms import BookForm, ChapterForm, TextForm
 from books.models import Book, Chapter, Text
 
+class BooksWrittenByCurrentUserMixin():
+    def get_queryset(self):
+        queryset = Book.objects.all().filter(author=self.request.user)
+        return queryset
 
-class WriterAddBookCreateView(LoginRequiredMixin, CreateView):
+class WriterBookCreateView(LoginRequiredMixin, CreateView):
     model = Book
     form_class = BookForm
     template_name = "writer/add-book.html"
@@ -17,47 +21,6 @@ class WriterAddBookCreateView(LoginRequiredMixin, CreateView):
         form.instance.author = self.request.user
         return super().form_valid(form)
 
-class WriterAddChapterCreateView(LoginRequiredMixin, CreateView):
-    model = Chapter
-    form_class = ChapterForm
-    template_name = "writer/add-chapter.html"
-    success_url = '/writer/'
-
-    def form_valid(self, form):
-        book = Book.objects.get(slug = self.kwargs['slug'])
-        form.instance.book = book
-        return super().form_valid(form)
-
-class WriterAddTextCreateView(LoginRequiredMixin, CreateView):
-    model = Text
-    form_class = TextForm
-    template_name = "writer/add-text.html"
-    success_url = '/chapter/'
-
-    def form_valid(self, form):
-        chapter = Chapter.objects.get(slug = self.kwargs['slug_chapter'])
-        form.instance.chapter = chapter
-        return super().form_valid(form)
-
-    def get_context_data(self, **kwargs):
-        """Insert the single object into the context dict."""
-        context = {}
-
-        if self.object:
-            context['object'] = self.object
-            chapter_slug = self.kwargs['chapter.slug_chapter']
-            context['chapter'] = Chapter.objects.get(chapter_slug = chapter_slug)
-            context_object_name = self.get_context_object_name(self.object)
-            if context_object_name:
-                context[context_object_name] = self.object
-        context.update(kwargs)
-        return super().get_context_data(**context)
-
-
-class BooksWrittenByCurrentUserMixin():
-    def get_queryset(self):
-        queryset = Book.objects.all().filter(author=self.request.user)
-        return queryset
 
 class WriterBookDetailView(LoginRequiredMixin, BooksWrittenByCurrentUserMixin, DetailView):
     context_object_name = 'book'
@@ -77,24 +40,78 @@ class WriterBookDetailView(LoginRequiredMixin, BooksWrittenByCurrentUserMixin, D
         context.update(kwargs)
         return super().get_context_data(**context)
 
+
 class WriterBooksListView(LoginRequiredMixin, BooksWrittenByCurrentUserMixin, ListView):
     context_object_name = 'books'
     model = Book
     template_name = 'writer/books.html'
 
+
+class WriterChapterCreateView(LoginRequiredMixin, CreateView):
+    model = Chapter
+    form_class = ChapterForm
+    template_name = "writer/add-chapter.html"
+
+    def form_valid(self, form):
+        self.book = Book.objects.get(pk = self.kwargs.get('pk'))
+        form.instance.book = self.book
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        pk = self.kwargs['pk']
+        return reverse('writer:book', kwargs={'pk': pk, 'slug':self.book.slug})
+
+
 class WriterChapterDetailView(LoginRequiredMixin, DetailView):
     context_object_name = 'chapter'
     model = Chapter
-    slug_field = "slug_chapter"
-    slug_url_kwarg = "slug_chapter"
     template_name = 'writer/chapter.html'
 
-    def get_queryset(self):
-        books = Book.objects.all().filter(author=self.request.user)
-        slug = self.kwargs['slug']
-        book = Book.objects.get(slug = slug)
-        queryset = Chapter.objects.all().filter(book=book).filter(book__in = books)
-        return queryset
+    def get_context_data(self, **kwargs):
+        """Insert the single object into the context dict."""
+        context = {}
+
+        if self.object:
+            context['object'] = self.object
+            context['texts'] = Text.objects.all().filter(chapter = self.object)
+            context_object_name = self.get_context_object_name(self.object)
+            if context_object_name:
+                context[context_object_name] = self.object
+        context.update(kwargs)
+        return super().get_context_data(**context)
+
+class WriterTextCreateView(LoginRequiredMixin, CreateView):
+    model = Text
+    form_class = TextForm
+    template_name = "writer/add-text.html"
+
+    def form_valid(self, form):
+        self.chapter = Chapter.objects.get(pk = self.kwargs.get('pk'))
+        form.instance.chapter = self.chapter
+        return super().form_valid(form)
+
+
+    def get_context_data(self, **kwargs):
+        """Insert the single object into the context dict."""
+        context = {}
+
+        if self.object:
+            context['object'] = self.object
+            context['chapter'] = self.chapter
+            context_object_name = self.get_context_object_name(self.object)
+            if context_object_name:
+                context[context_object_name] = self.object
+        context.update(kwargs)
+        return super().get_context_data(**context)
+
+    def get_success_url(self):
+        return reverse('writer:chapter',
+            kwargs={
+                'slug': self.chapter.book.slug,
+                'slug_chapter': self.chapter.slug_chapter,
+                'pk': self.chapter.pk,
+            }
+        )
 
 
 
