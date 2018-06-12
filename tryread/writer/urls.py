@@ -15,12 +15,18 @@ urlpatterns = [
         name='book_create'
     ),
     path(
+        'books',
+        view=views.WriterBooksListView.as_view(),
+        name='books'
+    ),
+    path(
         '<slug:slug>/<int:pk>/',
         view=views.WriterBookDetailView.as_view(),
         name='book'
     ),
+
     path(
-        '<slug:slug>/<int:pk>/chapter-create/',
+        '<slug:slug>/chapter-create/<int:pk>/',
         view=views.WriterChapterCreateView.as_view(),
         name='chapter_create'
     ),
@@ -30,14 +36,25 @@ urlpatterns = [
         name='chapter'
     ),
     path(
-        'chapter/<int:pk>/text-create/',
+        '<slug:slug>/<slug:slug_chapter>/text-create/<int:pk>/',
         view=views.WriterTextCreateView.as_view(),
         name='text_create'
     ),
     path(
-        'books',
-        view=views.WriterBooksListView.as_view(),
-        name='books'
+        '<slug:slug>/<slug:slug_chapter>/section/<int:pk>/',
+        view=views.WriterSectionDetailView.as_view(),
+        name='section_detail'
     ),
+    path(
+        '<slug:slug>/<slug:slug_chapter>/section/update/<int:pk>/',
+        view=views.WriterSectionUpdateView.as_view(),
+        name='section_update'
+    ),
+    path(
+        '<slug:slug>/<slug:slug_chapter>/section/delete/<int:pk>/',
+        view=views.WriterSectionDeleteView.as_view(),
+        name='section_delete'
+    ),
+
 
 ]

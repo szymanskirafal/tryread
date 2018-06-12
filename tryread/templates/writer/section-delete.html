@@ -1,0 +1,20 @@
+{% extends "base-my.html" %}
+{% block content %}
+
+
+{% include "_nav2.html" %}
+<div class="container py-5">
+  <h1>Warning!</h1>
+  <p>You are going to delete section</p>
+  <form action="" method="post">
+    {% csrf_token %}
+    <p>Are you sure you want to delete it?</p>
+    <input type="submit" value="Confirm" class="btn btn-danger"/>
+  </form>
+
+
+
+</div>
+
+
+{% endblock content %}

@@ -8,20 +8,21 @@
   <p>from book {{ chapter.book }}</p>
   <br><br>
   {% for text in texts %}
-    <p>{{ text.nr }}. {{ text }}</p>
+    <p>section {{ text.nr }}. <a href="{% url 'writer:section_detail' chapter.book.slug chapter.slug_chapter text.pk %}" class="btn btn-outline-dark">info</a></p>
+
+    <p>{{ text }}</p>
   {% endfor %}
   <div class="btn-group">
     <button type="button" class="btn btn-lg btn-outline-dark dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
       Add section
     </button>
     <div class="dropdown-menu">
-      <a class="dropdown-item" href="{% url 'writer:text_create' chapter.pk %}">Text</a>
-      <a class="dropdown-item" href="#">Dialog</a>
+      <a class="dropdown-item" href="{% url 'writer:text_create' chapter.book.slug chapter.slug_chapter chapter.pk %}">Text</a>
       <a class="dropdown-item" href="#">Picture</a>
 
     </div>
   </div>
-  <p>{{ chapter.text }}</p>
+
 
 </div>
 

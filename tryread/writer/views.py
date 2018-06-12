@@ -1,7 +1,7 @@
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
-from django.urls import reverse
-from django.views.generic import CreateView, DetailView, ListView, TemplateView
+from django.urls import reverse, reverse_lazy
+from django.views.generic import CreateView, DeleteView, DetailView, ListView, TemplateView, UpdateView
 
 from books.forms import BookForm, ChapterForm, TextForm
 from books.models import Book, Chapter, Text
@@ -79,6 +79,30 @@ class WriterChapterDetailView(LoginRequiredMixin, DetailView):
                 context[context_object_name] = self.object
         context.update(kwargs)
         return super().get_context_data(**context)
+
+class WriterSectionDetailView(LoginRequiredMixin, DetailView):
+    context_object_name = 'section'
+    model = Text
+    template_name = 'writer/section-detail.html'
+
+class WriterSectionUpdateView(LoginRequiredMixin, UpdateView):
+    context_object_name = 'section'
+    form_class = TextForm
+    model = Text
+    template_name = 'writer/section-update.html'
+
+class WriterSectionDeleteView(LoginRequiredMixin, DeleteView):
+    context_object_name = 'section'
+    model = Text
+    template_name = 'writer/section-delete.html'
+
+    def get_success_url(self):
+        print("-"*15, 'slug: ', self.object.chapter.book.slug)
+        print("-"*15, 'slug from kwargs: ', self.kwargs.get('slug'))
+
+        return reverse_lazy('writer:books')
+        # kwargs={'slug': self.kwargs.get('slug'), 'slug_chapter':self.kwargs.get('slug_chapter'), 'pk_chapter':self.kwargs.get('pk_chapter')})
+
 
 class WriterTextCreateView(LoginRequiredMixin, CreateView):
     model = Text
