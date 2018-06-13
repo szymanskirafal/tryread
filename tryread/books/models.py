@@ -74,20 +74,27 @@ class Chapter(TimeStampedModel):
         #return reverse('book', kwargs={'pk': self.id})
         pass
 
-class Text(TimeStampedModel):
+class Section(models.Model):
     chapter = models.ForeignKey(Chapter, on_delete = models.CASCADE, related_name = 'texts')
     text = models.TextField(max_length=20000)
+    picture = models.ImageField(upload_to="static/images/", blank = True)
     nr = models.PositiveSmallIntegerField(default=1)
+
     class Meta:
         ordering = ['nr']
 
-    def __str__(self):
-        return self.text
+#class Text(TimeStampedModel):
+#    chapter = models.ForeignKey(Chapter, on_delete = models.CASCADE, related_name = 'texts')
+#    text = models.TextField(max_length=20000)
+#    nr = models.PositiveSmallIntegerField(default=1)
+#    class Meta:
+#        ordering = ['nr']
 
-class Dialog(TimeStampedModel):
-    chapter = models.ForeignKey(Chapter, on_delete = models.CASCADE, related_name = 'dialogs')
-    dialog = models.TextField(max_length=20000)
+#    def __str__(self):
+#        return self.text
+
 
 #class Picture(TimeStampedModel):
 #    chapter = models.ForeignKey(Chapter, on_delete = models.CASCADE, related_name = 'pictures')
-#    picture = models.ImageField(upload_to=None, height_field=None, width_field=None, max_length=100, **options)
+#    picture = models.ImageField(upload_to="static/images/")
+#    nr = models.PositiveSmallIntegerField(default=1)

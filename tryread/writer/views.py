@@ -3,8 +3,8 @@ from django.shortcuts import redirect
 from django.urls import reverse, reverse_lazy
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, TemplateView, UpdateView
 
-from books.forms import BookForm, ChapterForm, TextForm
-from books.models import Book, Chapter, Text
+from books.forms import BookForm, ChapterForm, PictureForm, TextForm
+from books.models import Book, Chapter, Picture, Text
 
 class BooksWrittenByCurrentUserMixin():
     def get_queryset(self):
@@ -73,6 +73,7 @@ class WriterChapterDetailView(LoginRequiredMixin, DetailView):
 
         if self.object:
             context['object'] = self.object
+            context['pictures'] = Picture.objects.all().filter(chapter = self.object)
             context['texts'] = Text.objects.all().filter(chapter = self.object)
             context_object_name = self.get_context_object_name(self.object)
             if context_object_name:
@@ -84,6 +85,7 @@ class WriterSectionDetailView(LoginRequiredMixin, DetailView):
     context_object_name = 'section'
     model = Text
     template_name = 'writer/section-detail.html'
+
 
 class WriterSectionUpdateView(LoginRequiredMixin, UpdateView):
     context_object_name = 'section'
@@ -99,9 +101,10 @@ class WriterSectionDeleteView(LoginRequiredMixin, DeleteView):
     def get_success_url(self):
         print("-"*15, 'slug: ', self.object.chapter.book.slug)
         print("-"*15, 'slug from kwargs: ', self.kwargs.get('slug'))
-
-        return reverse_lazy('writer:books')
-        # kwargs={'slug': self.kwargs.get('slug'), 'slug_chapter':self.kwargs.get('slug_chapter'), 'pk_chapter':self.kwargs.get('pk_chapter')})
+        slug = self.kwargs.get('slug')
+        slug_chapter = self.kwargs.get('slug_chapter')
+        pk = self.kwargs.get('pk_chapter')
+        return reverse_lazy('writer:chapter', kwargs={'slug': slug, 'slug_chapter':slug_chapter, 'pk':pk})
 
 
 class WriterTextCreateView(LoginRequiredMixin, CreateView):
@@ -141,3 +144,15 @@ class WriterTextCreateView(LoginRequiredMixin, CreateView):
 
 class WriterTemplateView(LoginRequiredMixin, TemplateView):
     template_name = 'writer/writer.html'
+
+class WriterAddPictureCreateView(LoginRequiredMixin, CreateView):
+    model = Picture
+    form_class = PictureForm
+    template_name = 'writer/add-picture.html'
+    success_url = '/writer/'
+
+    def form_valid(self, form):
+        print('-'*15, ' form valid ')
+        self.chapter = Chapter.objects.get(pk = self.kwargs.get('pk'))
+        form.instance.chapter = self.chapter
+        return super().form_valid(form)

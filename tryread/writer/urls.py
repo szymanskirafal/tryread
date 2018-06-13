@@ -51,9 +51,14 @@ urlpatterns = [
         name='section_update'
     ),
     path(
-        '<slug:slug>/<slug:slug_chapter>/section/delete/<int:pk>/',
+        '<slug:slug>/<slug:slug_chapter>/section/delete/<int:pk_chapter>/<int:pk>/',
         view=views.WriterSectionDeleteView.as_view(),
         name='section_delete'
+    ),
+    path(
+        '<slug:slug>/<slug:slug_chapter>/add-picture/<int:pk>/',
+        view=views.WriterAddPictureCreateView.as_view(),
+        name='add_picture'
     ),
 
 

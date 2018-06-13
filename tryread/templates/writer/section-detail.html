@@ -9,7 +9,7 @@
   {{ section }}
   <br><br>
   <a href="{% url 'writer:section_update' slug=section.chapter.book.slug pk=section.pk slug_chapter=section.chapter.slug_chapter %}" class="btn btn-lg btn-outline-dark" role="button">Edit</a>
-  <a href="{% url 'writer:section_delete' slug=section.chapter.book.slug pk=section.pk slug_chapter=section.chapter.slug_chapter %}" class="btn btn-lg btn-outline-dark" role="button">Delete</a>
+  <a href="{% url 'writer:section_delete' slug=section.chapter.book.slug pk=section.pk slug_chapter=section.chapter.slug_chapter pk_chapter=section.chapter.pk %}" class="btn btn-lg btn-outline-dark" role="button">Delete</a>
   <br><br>
 
 </div>

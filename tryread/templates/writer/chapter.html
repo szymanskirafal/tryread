@@ -12,13 +12,16 @@
 
     <p>{{ text }}</p>
   {% endfor %}
+  {% for picture in pictures %}
+    <img src="{{ picture.picture.url }}" class="img-thumbnail"/>
+  {% endfor %}
   <div class="btn-group">
     <button type="button" class="btn btn-lg btn-outline-dark dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
       Add section
     </button>
     <div class="dropdown-menu">
       <a class="dropdown-item" href="{% url 'writer:text_create' chapter.book.slug chapter.slug_chapter chapter.pk %}">Text</a>
-      <a class="dropdown-item" href="#">Picture</a>
+      <a class="dropdown-item" href="{% url 'writer:add_picture' chapter.book.slug chapter.slug_chapter chapter.pk %}">Picture</a>
 
     </div>
   </div>
