@@ -3,6 +3,8 @@ from django.shortcuts import redirect
 from django.urls import reverse, reverse_lazy
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, TemplateView, UpdateView
 
+from itertools import chain
+
 from books.forms import BookForm, ChapterForm, PictureForm, TextForm
 from books.models import Book, Chapter, Picture, Text
 
@@ -73,8 +75,12 @@ class WriterChapterDetailView(LoginRequiredMixin, DetailView):
 
         if self.object:
             context['object'] = self.object
-            context['pictures'] = Picture.objects.all().filter(chapter = self.object)
-            context['texts'] = Text.objects.all().filter(chapter = self.object)
+            pictures = Picture.objects.all().filter(chapter = self.object)
+            texts = Text.objects.all().filter(chapter = self.object)
+            list_of_elements = sorted(
+                chain(pictures, texts),
+                key=lambda element: element.created, reverse=False)
+            context['elements'] = list_of_elements
             context_object_name = self.get_context_object_name(self.object)
             if context_object_name:
                 context[context_object_name] = self.object
