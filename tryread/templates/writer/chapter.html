@@ -7,25 +7,16 @@
   <h1>Chapter {{ chapter.nr }}. {{ chapter.title }}</h1>
   <p>from book {{ chapter.book }}</p>
   <br><br>
-  {% for text in texts %}
-    <p>----- created: {{ text.created }}</p>
-    <p>section {{ text.nr }}. <a href="{% url 'writer:section_detail' chapter.book.slug chapter.slug_chapter text.pk %}" class="btn btn-outline-dark">info</a></p>
-
-    <p>{{ text|linebreaks }}</p>
-  {% endfor %}
-  {% for picture in pictures %}
-    <p>----- created: {{ picture.created }}</p>
-    <img src="{{ picture.picture.url }}" class="img-thumbnail"/>
-  {% endfor %}
 
   {% for element in elements %}
-    <p>element created {{ element.created }}</p>
-    <p>picture goes here:</p>
-    <img src="{{ element.picture.url }}" class="img-thumbnail"/>
-    <p>text goes here:</p>
-    <p>{{ element.text }}</p>
-
+    {% if element.picture %}
+      <img src="{{ element.picture.url }}" class="img-thumbnail"/>
+    {% elif element.text %}
+      <p>{{ element.text|linebreaks }}</p>
+      <p class="font-bigger">{{ element.text|linebreaks }}</p>
+    {% endif %}
   {% endfor %}
+
   <br><br>
   <div class="text-center">
     <a class="btn btn-lg btn-outline-dark" href="{% url 'writer:text_create' chapter.book.slug chapter.slug_chapter chapter.pk %}">+ Text</a>
