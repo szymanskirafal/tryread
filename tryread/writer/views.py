@@ -63,6 +63,17 @@ class WriterChapterCreateView(LoginRequiredMixin, CreateView):
         pk = self.kwargs['pk']
         return reverse('writer:book', kwargs={'pk': pk, 'slug':self.book.slug})
 
+class WriterChapterUpdateView(LoginRequiredMixin, UpdateView):
+    context_object_name = 'chapter'
+    model = Chapter
+    form_class = ChapterForm
+    template_name = "writer/chapter-update.html"
+
+    def get_success_url(self):
+        pk = self.kwargs['pk']
+        slug_chapter = self.kwargs['slug_chapter']
+        slug = self.kwargs['slug']
+        return reverse('writer:chapter', kwargs={'slug': slug, 'slug_chapter': slug_chapter, 'pk': pk})
 
 class WriterChapterDetailView(LoginRequiredMixin, DetailView):
     context_object_name = 'chapter'
@@ -87,30 +98,8 @@ class WriterChapterDetailView(LoginRequiredMixin, DetailView):
         context.update(kwargs)
         return super().get_context_data(**context)
 
-class WriterSectionDetailView(LoginRequiredMixin, DetailView):
-    context_object_name = 'section'
-    model = Text
-    template_name = 'writer/section-detail.html'
-
-
-class WriterSectionUpdateView(LoginRequiredMixin, UpdateView):
-    context_object_name = 'section'
-    form_class = TextForm
-    model = Text
-    template_name = 'writer/section-update.html'
-
-class WriterSectionDeleteView(LoginRequiredMixin, DeleteView):
-    context_object_name = 'section'
-    model = Text
-    template_name = 'writer/section-delete.html'
-
-    def get_success_url(self):
-        print("-"*15, 'slug: ', self.object.chapter.book.slug)
-        print("-"*15, 'slug from kwargs: ', self.kwargs.get('slug'))
-        slug = self.kwargs.get('slug')
-        slug_chapter = self.kwargs.get('slug_chapter')
-        pk = self.kwargs.get('pk_chapter')
-        return reverse_lazy('writer:chapter', kwargs={'slug': slug, 'slug_chapter':slug_chapter, 'pk':pk})
+class WriterChapterPreviewDetailView(WriterChapterDetailView):
+    template_name = 'writer/chapter-preview.html'
 
 
 class WriterTextCreateView(LoginRequiredMixin, CreateView):
@@ -146,6 +135,25 @@ class WriterTextCreateView(LoginRequiredMixin, CreateView):
             }
         )
 
+class WriterTextUpdateView(LoginRequiredMixin, UpdateView):
+    model = Text
+    form_class = TextForm
+    template_name = "writer/text-update.html"
+
+    def form_valid(self, form):
+
+        print('-'*15, ' text update with element pk: ', self.object.pk)
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse('writer:chapter',
+            kwargs={
+                'slug': self.kwargs.get("slug_book"),
+                'slug_chapter': self.kwargs.get("slug_chapter"),
+                'pk': self.kwargs.get("pk_chapter"),
+            }
+        )
+
 
 
 class WriterTemplateView(LoginRequiredMixin, TemplateView):
@@ -158,7 +166,38 @@ class WriterAddPictureCreateView(LoginRequiredMixin, CreateView):
     success_url = '/writer/'
 
     def form_valid(self, form):
-        print('-'*15, ' form valid ')
         self.chapter = Chapter.objects.get(pk = self.kwargs.get('pk'))
         form.instance.chapter = self.chapter
         return super().form_valid(form)
+
+class WriterPictureDeleteView(LoginRequiredMixin, DeleteView):
+    model = Picture
+    form_class = PictureForm
+    pk_url_kwarg = 'pk_picture'
+    success_url = '/writer/'
+    template_name = 'writer/delete-picture.html'
+
+    def get_success_url(self):
+        return reverse('writer:chapter',
+            kwargs={
+                'slug': self.kwargs.get("slug_book"),
+                'slug_chapter': self.kwargs.get("slug_chapter"),
+                'pk': self.kwargs.get("pk_chapter"),
+            }
+        )
+
+class WriterPictureUpdateView(LoginRequiredMixin, UpdateView):
+    model = Picture
+    form_class = PictureForm
+    pk_url_kwarg = 'pk'
+    success_url = '/writer/'
+    template_name = 'writer/picture-update.html'
+
+    def get_success_url(self):
+        return reverse('writer:chapter',
+            kwargs={
+                'slug': self.kwargs.get("slug_book"),
+                'slug_chapter': self.kwargs.get("slug_chapter"),
+                'pk': self.kwargs.get("pk_chapter"),
+            }
+        )

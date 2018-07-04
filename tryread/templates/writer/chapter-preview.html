@@ -1,0 +1,24 @@
+{% extends "base-my.html" %}
+{% block content %}
+
+
+{% include "_nav2.html" %}
+<div class="container py-5">
+  <h1>Chapter {{ chapter.nr }}. {{ chapter.title }}</h1>
+  <p>from {{ chapter.book }} by {{ view.request.user }}</p>
+  <br><br>
+
+  {% for element in elements %}
+    {% if element.picture %}
+      <img src="{{ element.picture.url }}" class="img-thumbnail"/>
+    {% elif element.text %}
+      <p>{{ element.text|linebreaks }}</p>
+      <p class="font-bigger">{{ element.text|linebreaks }}</p>
+    {% endif %}
+  {% endfor %}
+
+</div>
+<br><br>
+
+
+{% endblock content %}

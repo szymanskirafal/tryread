@@ -36,29 +36,40 @@ urlpatterns = [
         name='chapter'
     ),
     path(
+        '<slug:slug>/<slug:slug_chapter>/update/<int:pk>/',
+        view=views.WriterChapterUpdateView.as_view(),
+        name='chapter-update'
+    ),
+    path(
+        '<slug:slug>/<slug:slug_chapter>/preview/<int:pk>/',
+        view=views.WriterChapterPreviewDetailView.as_view(),
+        name='chapter-preview'
+    ),
+    path(
         '<slug:slug>/<slug:slug_chapter>/text-create/<int:pk>/',
         view=views.WriterTextCreateView.as_view(),
         name='text_create'
     ),
     path(
-        '<slug:slug>/<slug:slug_chapter>/section/<int:pk>/',
-        view=views.WriterSectionDetailView.as_view(),
-        name='section_detail'
+        '<slug:slug_book>/<slug:slug_chapter>/<int:pk_chapter>/update-text/<int:pk>/',
+        view=views.WriterTextUpdateView.as_view(),
+        name='text-update'
     ),
-    path(
-        '<slug:slug>/<slug:slug_chapter>/section/update/<int:pk>/',
-        view=views.WriterSectionUpdateView.as_view(),
-        name='section_update'
-    ),
-    path(
-        '<slug:slug>/<slug:slug_chapter>/section/delete/<int:pk_chapter>/<int:pk>/',
-        view=views.WriterSectionDeleteView.as_view(),
-        name='section_delete'
-    ),
+
     path(
         '<slug:slug>/<slug:slug_chapter>/add-picture/<int:pk>/',
         view=views.WriterAddPictureCreateView.as_view(),
         name='add_picture'
+    ),
+    path(
+        '<slug:slug_book>/<slug:slug_chapter>/<int:pk_chapter>/delete-picture/<int:pk_picture>/',
+        view=views.WriterPictureDeleteView.as_view(),
+        name='picture-delete'
+    ),
+    path(
+        '<slug:slug_book>/<slug:slug_chapter>/<int:pk_chapter>/picture-update/<int:pk>/',
+        view=views.WriterPictureUpdateView.as_view(),
+        name='picture-update'
     ),
 
 

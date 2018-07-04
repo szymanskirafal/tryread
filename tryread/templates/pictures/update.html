@@ -4,12 +4,18 @@
 
 {% include "_nav2.html" %}
 <div class="container py-5">
-  <h1>Section update.</h1>
-  <form method="post">
+  <h1>Update Picture</h1>
+  <p>You're adding picture</p>
+  <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form }}
     <input type="submit" value="Submit" />
   </form>
+
+
+  <br><br>
+
+
 
 </div>
 

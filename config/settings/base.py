@@ -74,6 +74,7 @@ LOCAL_APPS = [
     # Your stuff: custom apps go here
     'books',
     'home',
+    'pictures',
     'writer',
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps

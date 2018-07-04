@@ -27,6 +27,7 @@ urlpatterns = [
     path("accounts/", include("allauth.urls")),
     # Your stuff: custom urls includes go here
 
+    path("pictures/", include("pictures.urls", namespace="pictures")),
     path("writer/", include("tryread.writer.urls", namespace="writer")),
 
 ] + static(

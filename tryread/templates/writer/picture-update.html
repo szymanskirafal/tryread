@@ -1,0 +1,23 @@
+{% extends "base-my.html" %}
+{% block content %}
+
+
+{% include "_nav2.html" %}
+<div class="container py-5">
+  <h1>Update Picture</h1>
+  <p>You're updating picture from {{ chapter }} in {{ chapter.book }}</p>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="Update" />
+  </form>
+
+
+  <br><br>
+
+
+
+</div>
+
+
+{% endblock content %}

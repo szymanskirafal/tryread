@@ -17,7 +17,6 @@ class ChapterForm(ModelForm):
         model = Chapter
         fields = [
             'title',
-            'nr',
         ]
 
 class PictureForm(ModelForm):
@@ -25,7 +24,6 @@ class PictureForm(ModelForm):
         model = Picture
         fields = [
             'picture',
-            'nr',
         ]
 
 class TextForm(ModelForm):
@@ -33,5 +31,4 @@ class TextForm(ModelForm):
         model = Text
         fields = [
             'text',
-            'nr',
         ]

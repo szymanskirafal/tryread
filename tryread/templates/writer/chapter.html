@@ -7,20 +7,40 @@
   <h1>Chapter {{ chapter.nr }}. {{ chapter.title }}</h1>
   <p>from book {{ chapter.book }}</p>
   <br><br>
+  <div class="text-center">
+    <a class="btn btn-lg btn-outline-dark" href="{% url 'writer:chapter-update' slug=chapter.book.slug slug_chapter=chapter.slug_chapter pk=chapter.pk %}">Edit</a>
+  </div>
+  <br><br>
+  <hr>
 
   {% for element in elements %}
     {% if element.picture %}
       <img src="{{ element.picture.url }}" class="img-thumbnail"/>
+      <br><br>
+      <div class="text-center">
+        <a class="btn btn-lg btn-outline-dark" href="{% url 'writer:picture-update' slug_book=chapter.book.slug slug_chapter=chapter.slug_chapter pk_chapter=chapter.pk pk=element.pk %}">Edit</a>
+        <a class="btn btn-lg btn-outline-dark" href="{% url 'writer:picture-delete' slug_book=chapter.book.slug slug_chapter=chapter.slug_chapter pk_chapter=chapter.pk pk_picture=element.pk %}">Delete</a>
+      </div>
+      <br><br>
+      <hr>
     {% elif element.text %}
       <p>{{ element.text|linebreaks }}</p>
-      <p class="font-bigger">{{ element.text|linebreaks }}</p>
+      <br><br>
+      <div class="text-center">
+        <a class="btn btn-lg btn-outline-dark" href="{% url 'writer:text-update' slug_book=chapter.book.slug slug_chapter=chapter.slug_chapter pk_chapter=chapter.pk pk=element.pk %}">Edit</a>
+      </div>
+      <br><br>
+      <hr>
     {% endif %}
+
   {% endfor %}
 
   <br><br>
   <div class="text-center">
     <a class="btn btn-lg btn-outline-dark" href="{% url 'writer:text_create' chapter.book.slug chapter.slug_chapter chapter.pk %}">+ Text</a>
     <a class="btn btn-lg btn-outline-dark" href="{% url 'writer:add_picture' chapter.book.slug chapter.slug_chapter chapter.pk %}">+ Picture</a>
+    <a class="btn btn-lg btn-outline-dark" href="{% url 'writer:chapter-preview' chapter.book.slug chapter.slug_chapter chapter.pk %}">Preview</a>
+
   </div>
 
 

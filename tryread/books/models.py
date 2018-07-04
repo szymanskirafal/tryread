@@ -86,9 +86,9 @@ class Chapter(TimeStampedModel):
 class Text(TimeStampedModel):
     chapter = models.ForeignKey(Chapter, on_delete = models.CASCADE, related_name = 'texts')
     text = models.TextField(max_length=20000)
-    nr = models.PositiveSmallIntegerField(default=1)
+
     class Meta:
-        ordering = ['nr']
+        ordering = ['created']
 
     def __str__(self):
         return self.text
@@ -97,4 +97,9 @@ class Text(TimeStampedModel):
 class Picture(TimeStampedModel):
     chapter = models.ForeignKey(Chapter, on_delete = models.CASCADE, related_name = 'pictures')
     picture = models.ImageField(upload_to="static/images/")
-    nr = models.PositiveSmallIntegerField(default=1)
+
+    class Meta:
+        ordering = ['created']
+
+    def __str__(self):
+        return self.picture
