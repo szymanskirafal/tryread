@@ -56,10 +56,11 @@ class Book(models.Model):
 
 class Chapter(TimeStampedModel):
     book = models.ForeignKey(Book, on_delete = models.CASCADE, related_name = 'chapters')
-    title = models.CharField(max_length = 150)
     nr = models.PositiveSmallIntegerField()
+    published = models.BooleanField(default = False)
     slug_chapter = models.SlugField(max_length = 150)
-
+    title = models.CharField(max_length = 150)
+    
     class Meta:
         ordering = ['nr']
 

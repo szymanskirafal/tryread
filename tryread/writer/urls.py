@@ -20,35 +20,39 @@ urlpatterns = [
         name='books'
     ),
     path(
-        '<slug:slug>/<int:pk>/',
+        '<slug:slug_book>/<int:pk>/',
         view=views.WriterBookDetailView.as_view(),
         name='book'
     ),
-
     path(
-        '<slug:slug>/chapter-create/<int:pk>/',
+        '<slug:slug_book>/<int:pk>/chapter-create/',
         view=views.WriterChapterCreateView.as_view(),
         name='chapter_create'
     ),
     path(
-        '<slug:slug>/<slug:slug_chapter>/<int:pk>/',
+        '<slug:slug_book>/<slug:slug_chapter>/<int:pk>/',
         view=views.WriterChapterDetailView.as_view(),
         name='chapter'
     ),
     path(
-        '<slug:slug>/<slug:slug_chapter>/update/<int:pk>/',
+        '<slug:slug_book>/<slug:slug_chapter>/update/<int:pk>/',
         view=views.WriterChapterUpdateView.as_view(),
         name='chapter-update'
     ),
     path(
-        '<slug:slug>/<slug:slug_chapter>/preview/<int:pk>/',
-        view=views.WriterChapterPreviewDetailView.as_view(),
+        '<slug:slug_book>/<slug:slug_chapter>/preview/<int:pk>/',
+        view=views.WriterChapterPreviewUpdateView.as_view(),
         name='chapter-preview'
     ),
     path(
-        '<slug:slug>/<slug:slug_chapter>/text-create/<int:pk>/',
+        '<slug:slug_book>/<slug:slug_chapter>/text-create/<int:pk>/',
         view=views.WriterTextCreateView.as_view(),
         name='text_create'
+    ),
+    path(
+        '<slug:slug_book>/<slug:slug_chapter>/<int:pk_chapter>/text-delete/<int:pk>/',
+        view=views.WriterTextDeleteView.as_view(),
+        name='text-delete'
     ),
     path(
         '<slug:slug_book>/<slug:slug_chapter>/<int:pk_chapter>/update-text/<int:pk>/',
@@ -57,7 +61,7 @@ urlpatterns = [
     ),
 
     path(
-        '<slug:slug>/<slug:slug_chapter>/add-picture/<int:pk>/',
+        '<slug:slug_book>/<slug:slug_chapter>/<int:pk_chapter>/add-picture/',
         view=views.WriterAddPictureCreateView.as_view(),
         name='add_picture'
     ),

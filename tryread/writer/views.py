@@ -5,7 +5,7 @@ from django.views.generic import CreateView, DeleteView, DetailView, ListView, T
 
 from itertools import chain
 
-from books.forms import BookForm, ChapterForm, PictureForm, TextForm
+from books.forms import BookForm, ChapterForm, ChapterPublishForm, PictureForm, TextForm
 from books.models import Book, Chapter, Picture, Text
 
 class BooksWrittenByCurrentUserMixin():
@@ -75,6 +75,7 @@ class WriterChapterUpdateView(LoginRequiredMixin, UpdateView):
         slug = self.kwargs['slug']
         return reverse('writer:chapter', kwargs={'slug': slug, 'slug_chapter': slug_chapter, 'pk': pk})
 
+
 class WriterChapterDetailView(LoginRequiredMixin, DetailView):
     context_object_name = 'chapter'
     model = Chapter
@@ -98,8 +99,50 @@ class WriterChapterDetailView(LoginRequiredMixin, DetailView):
         context.update(kwargs)
         return super().get_context_data(**context)
 
+"""
 class WriterChapterPreviewDetailView(WriterChapterDetailView):
     template_name = 'writer/chapter-preview.html'
+"""
+class WriterChapterPreviewUpdateView(LoginRequiredMixin, UpdateView):
+    form_class = ChapterPublishForm
+    model = Chapter
+    template_name = 'writer/chapter-preview.html'
+    success_url = '/writer/'
+
+    def form_valid(self, form):
+        form.instance.published = True
+        print("+"*15, form.instance.published)
+        print("+"*15, form.instance.title)
+        print("+"*15, form.instance.book)
+        print("+"*15 )
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        """Insert the single object into the context dict."""
+        context = {}
+
+        if self.object:
+            context['object'] = self.object
+            pictures = Picture.objects.all().filter(chapter = self.object)
+            texts = Text.objects.all().filter(chapter = self.object)
+            list_of_elements = sorted(
+                chain(pictures, texts),
+                key=lambda element: element.created, reverse=False)
+            context['elements'] = list_of_elements
+            context_object_name = self.get_context_object_name(self.object)
+            if context_object_name:
+                context[context_object_name] = self.object
+        context.update(kwargs)
+        return super().get_context_data(**context)
+
+
+
+
+class PublishChapterUpdateView(UpdateView):
+    form_class = ChapterPublishForm
+    model = Chapter
+    template_name = "writer/publish.html"
+
 
 
 class WriterTextCreateView(LoginRequiredMixin, CreateView):
@@ -135,6 +178,22 @@ class WriterTextCreateView(LoginRequiredMixin, CreateView):
             }
         )
 
+
+class WriterTextDeleteView(LoginRequiredMixin, DeleteView):
+    form_class = TextForm
+    model = Text
+    template_name = "writer/text-delete.html"
+
+    def get_success_url(self):
+        return reverse('writer:chapter',
+            kwargs={
+                'slug': self.kwargs.get("slug_book"),
+                'slug_chapter': self.kwargs.get("slug_chapter"),
+                'pk': self.kwargs.get("pk_chapter"),
+            }
+        )
+
+
 class WriterTextUpdateView(LoginRequiredMixin, UpdateView):
     model = Text
     form_class = TextForm
@@ -159,45 +218,38 @@ class WriterTextUpdateView(LoginRequiredMixin, UpdateView):
 class WriterTemplateView(LoginRequiredMixin, TemplateView):
     template_name = 'writer/writer.html'
 
-class WriterAddPictureCreateView(LoginRequiredMixin, CreateView):
+class GetBackToChapterMixin():
+
+    def get_success_url(self):
+        return reverse('writer:chapter',
+            kwargs={
+                'slug': self.kwargs.get("slug_book"),
+                'slug_chapter': self.kwargs.get("slug_chapter"),
+                'pk': self.kwargs.get("pk_chapter"),
+            }
+        )
+
+class WriterAddPictureCreateView(LoginRequiredMixin, GetBackToChapterMixin, CreateView):
     model = Picture
     form_class = PictureForm
     template_name = 'writer/add-picture.html'
-    success_url = '/writer/'
 
     def form_valid(self, form):
-        self.chapter = Chapter.objects.get(pk = self.kwargs.get('pk'))
+        self.chapter = Chapter.objects.get(pk = self.kwargs.get('pk_chapter'))
         form.instance.chapter = self.chapter
         return super().form_valid(form)
 
-class WriterPictureDeleteView(LoginRequiredMixin, DeleteView):
-    model = Picture
+
+class WriterPictureDeleteView(LoginRequiredMixin, GetBackToChapterMixin, DeleteView):
+    context_object_name = 'picture'
     form_class = PictureForm
+    model = Picture
     pk_url_kwarg = 'pk_picture'
-    success_url = '/writer/'
-    template_name = 'writer/delete-picture.html'
+    template_name = 'writer/picture-delete.html'
 
-    def get_success_url(self):
-        return reverse('writer:chapter',
-            kwargs={
-                'slug': self.kwargs.get("slug_book"),
-                'slug_chapter': self.kwargs.get("slug_chapter"),
-                'pk': self.kwargs.get("pk_chapter"),
-            }
-        )
 
-class WriterPictureUpdateView(LoginRequiredMixin, UpdateView):
+class WriterPictureUpdateView(LoginRequiredMixin, GetBackToChapterMixin, UpdateView):
     model = Picture
     form_class = PictureForm
     pk_url_kwarg = 'pk'
-    success_url = '/writer/'
     template_name = 'writer/picture-update.html'
-
-    def get_success_url(self):
-        return reverse('writer:chapter',
-            kwargs={
-                'slug': self.kwargs.get("slug_book"),
-                'slug_chapter': self.kwargs.get("slug_chapter"),
-                'pk': self.kwargs.get("pk_chapter"),
-            }
-        )

@@ -28,6 +28,7 @@
       <br><br>
       <div class="text-center">
         <a class="btn btn-lg btn-outline-dark" href="{% url 'writer:text-update' slug_book=chapter.book.slug slug_chapter=chapter.slug_chapter pk_chapter=chapter.pk pk=element.pk %}">Edit</a>
+        <a class="btn btn-lg btn-outline-dark" href="{% url 'writer:text-delete' slug_book=chapter.book.slug slug_chapter=chapter.slug_chapter pk_chapter=chapter.pk pk=element.pk %}">Delete</a>
       </div>
       <br><br>
       <hr>
@@ -38,7 +39,7 @@
   <br><br>
   <div class="text-center">
     <a class="btn btn-lg btn-outline-dark" href="{% url 'writer:text_create' chapter.book.slug chapter.slug_chapter chapter.pk %}">+ Text</a>
-    <a class="btn btn-lg btn-outline-dark" href="{% url 'writer:add_picture' chapter.book.slug chapter.slug_chapter chapter.pk %}">+ Picture</a>
+    <a class="btn btn-lg btn-outline-dark" href="{% url 'writer:add_picture' slug_book=chapter.book.slug slug_chapter=chapter.slug_chapter pk_chapter=chapter.pk %}">+ Picture</a>
     <a class="btn btn-lg btn-outline-dark" href="{% url 'writer:chapter-preview' chapter.book.slug chapter.slug_chapter chapter.pk %}">Preview</a>
 
   </div>

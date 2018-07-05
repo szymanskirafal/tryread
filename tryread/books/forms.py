@@ -1,4 +1,4 @@
-from django.forms import ModelForm
+from django.forms import ModelForm, HiddenInput
 from .models import Book, Chapter, Picture, Text
 
 class BookForm(ModelForm):
@@ -18,6 +18,14 @@ class ChapterForm(ModelForm):
         fields = [
             'title',
         ]
+
+class ChapterPublishForm(ModelForm):
+    class Meta:
+        model = Chapter
+        fields = [
+            'published',
+        ]
+        widgets = {'published': HiddenInput()}
 
 class PictureForm(ModelForm):
     class Meta:
