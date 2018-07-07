@@ -43,46 +43,38 @@ class Book(models.Model):
     tags = models.CharField(max_length = 250, blank = True)
 
     def __str__(self):
-        return self.title
+        return self.title + ' by ' + self.author
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
         super(Book, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
-        #return reverse('book', kwargs={'pk': self.id})
-        pass
+        return reverse('book', kwargs={'pk': self.id})
+
 
 
 class Chapter(TimeStampedModel):
     book = models.ForeignKey(Book, on_delete = models.CASCADE, related_name = 'chapters')
     nr = models.PositiveSmallIntegerField()
     published = models.BooleanField(default = False)
-    slug_chapter = models.SlugField(max_length = 150)
+    slug = models.SlugField(max_length = 150)
     title = models.CharField(max_length = 150)
-    
+
     class Meta:
         ordering = ['nr']
 
     def __str__(self):
-        return self.title
+        return self.title + ' from ' + self.book
 
     def save(self, *args, **kwargs):
-        self.slug_chapter = slugify(self.title)
+        self.slug = slugify(self.title)
         super(Chapter, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
-        #return reverse('book', kwargs={'pk': self.id})
-        pass
+        return reverse('chapter', kwargs={'pk': self.id})
 
-#class Section(models.Model):
-#    chapter = models.ForeignKey(Chapter, on_delete = models.CASCADE, related_name = 'texts')
-#    text = models.TextField(max_length=20000)
-#    picture = models.ImageField(upload_to="static/images/", blank = True)
-#    nr = models.PositiveSmallIntegerField(default=1)
 
-#    class Meta:
-#        ordering = ['nr']
 
 class Text(TimeStampedModel):
     chapter = models.ForeignKey(Chapter, on_delete = models.CASCADE, related_name = 'texts')
@@ -97,7 +89,7 @@ class Text(TimeStampedModel):
 
 class Picture(TimeStampedModel):
     chapter = models.ForeignKey(Chapter, on_delete = models.CASCADE, related_name = 'pictures')
-    picture = models.ImageField(upload_to="static/images/")
+    picture = models.ImageField(upload_to="images/")
 
     class Meta:
         ordering = ['created']

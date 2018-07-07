@@ -12,7 +12,7 @@ urlpatterns = [
     path(
         'book-create/',
         view=views.WriterBookCreateView.as_view(),
-        name='book_create'
+        name='book-create'
     ),
     path(
         'books',
@@ -20,42 +20,42 @@ urlpatterns = [
         name='books'
     ),
     path(
-        '<slug:slug_book>/<int:pk>/',
+        '<slug:slug_book>/<int:pk_book>/',
         view=views.WriterBookDetailView.as_view(),
         name='book'
     ),
     path(
-        '<slug:slug_book>/<int:pk>/chapter-create/',
+        '<slug:slug_book>/<int:pk_book>/chapter-create/',
         view=views.WriterChapterCreateView.as_view(),
-        name='chapter_create'
+        name='chapter-create'
     ),
     path(
-        '<slug:slug_book>/<slug:slug_chapter>/<int:pk>/',
+        '<slug:slug_book>/<slug:slug_chapter>/<int:pk_chapter>/',
         view=views.WriterChapterDetailView.as_view(),
         name='chapter'
     ),
     path(
-        '<slug:slug_book>/<slug:slug_chapter>/update/<int:pk>/',
+        '<slug:slug_book>/<slug:slug_chapter>/update/<int:pk_chapter>/',
         view=views.WriterChapterUpdateView.as_view(),
         name='chapter-update'
     ),
     path(
-        '<slug:slug_book>/<slug:slug_chapter>/preview/<int:pk>/',
+        '<slug:slug_book>/<slug:slug_chapter>/preview/<int:pk_chapter>/',
         view=views.WriterChapterPreviewUpdateView.as_view(),
         name='chapter-preview'
     ),
     path(
-        '<slug:slug_book>/<slug:slug_chapter>/text-create/<int:pk>/',
+        '<slug:slug_book>/<slug:slug_chapter>/<int:pk_chapter>/text-create/',
         view=views.WriterTextCreateView.as_view(),
-        name='text_create'
+        name='text-create'
     ),
     path(
-        '<slug:slug_book>/<slug:slug_chapter>/<int:pk_chapter>/text-delete/<int:pk>/',
+        '<slug:slug_book>/<slug:slug_chapter>/<int:pk_chapter>/text-delete/<int:pk_text>/',
         view=views.WriterTextDeleteView.as_view(),
         name='text-delete'
     ),
     path(
-        '<slug:slug_book>/<slug:slug_chapter>/<int:pk_chapter>/update-text/<int:pk>/',
+        '<slug:slug_book>/<slug:slug_chapter>/<int:pk_chapter>/update-text/<int:pk_text>/',
         view=views.WriterTextUpdateView.as_view(),
         name='text-update'
     ),
@@ -63,7 +63,7 @@ urlpatterns = [
     path(
         '<slug:slug_book>/<slug:slug_chapter>/<int:pk_chapter>/add-picture/',
         view=views.WriterAddPictureCreateView.as_view(),
-        name='add_picture'
+        name='add-picture'
     ),
     path(
         '<slug:slug_book>/<slug:slug_chapter>/<int:pk_chapter>/delete-picture/<int:pk_picture>/',
@@ -71,10 +71,9 @@ urlpatterns = [
         name='picture-delete'
     ),
     path(
-        '<slug:slug_book>/<slug:slug_chapter>/<int:pk_chapter>/picture-update/<int:pk>/',
+        '<slug:slug_book>/<slug:slug_chapter>/<int:pk_chapter>/picture-update/<int:pk_picture>/',
         view=views.WriterPictureUpdateView.as_view(),
         name='picture-update'
     ),
-
 
 ]

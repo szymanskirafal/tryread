@@ -17,7 +17,7 @@
   <br><br>
 
 
-  <a href="{% url 'writer:chapter_create' book.slug book.pk %}" class="btn btn-lg btn-outline-dark" role="button">New chapter</a>
+  <a href="{% url 'writer:chapter-create' slug_book=book.slug pk_book=book.pk %}" class="btn btn-lg btn-outline-dark" role="button">New chapter</a>
 
 </div>
 
