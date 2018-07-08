@@ -43,7 +43,7 @@ class Book(models.Model):
     tags = models.CharField(max_length = 250, blank = True)
 
     def __str__(self):
-        return self.title + ' by ' + self.author
+        return self.title + ' by ' + self.author.username
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
@@ -65,14 +65,14 @@ class Chapter(TimeStampedModel):
         ordering = ['nr']
 
     def __str__(self):
-        return self.title + ' from ' + self.book
+        return self.title + ' from ' + self.book.title
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
         super(Chapter, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return reverse('chapter', kwargs={'pk': self.id})
+        return reverse('chapter', kwargs={'pk_chapter': self.id})
 
 
 

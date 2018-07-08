@@ -16,6 +16,7 @@ class ChapterForm(ModelForm):
     class Meta:
         model = Chapter
         fields = [
+            'nr',
             'title',
         ]
 

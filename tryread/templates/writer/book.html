@@ -12,7 +12,16 @@
   <br><br>
   <p>Chapters:</p>
   {% for chapter in chapters %}
-    <a href="{% url 'writer:chapter-detail' slug_book=book.slug slug_chapter=chapter.slug_chapter pk_chapter=chapter.pk %}">{{ chapter.nr }}. {{ chapter }}</a><br><br>
+    <a href="{% url 'writer:chapter' slug_book=book.slug slug_chapter=chapter.slug pk_chapter=chapter.pk %}">
+      {{ chapter.nr }}. {{ chapter }}
+    </a>
+    {% if chapter.published %}
+      <p class="text-success">published</p>
+    {% else %}
+      <br><br>
+    {% endif %}
+
+
   {% endfor %}
   <br><br>
 

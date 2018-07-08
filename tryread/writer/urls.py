@@ -62,8 +62,8 @@ urlpatterns = [
 
     path(
         '<slug:slug_book>/<slug:slug_chapter>/<int:pk_chapter>/add-picture/',
-        view=views.WriterAddPictureCreateView.as_view(),
-        name='add-picture'
+        view=views.WriterPictureCreateView.as_view(),
+        name='picture-create'
     ),
     path(
         '<slug:slug_book>/<slug:slug_chapter>/<int:pk_chapter>/delete-picture/<int:pk_picture>/',
