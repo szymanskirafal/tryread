@@ -21,16 +21,14 @@ class WriterBookCreateView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         form.instance.author = self.request.user
-        from django.core.mail import send_mail
-
-        send_mail(
-            'Subject here',
-            'Here is the message.',
-            'postmaster@tryread.com',
-
+        from django.core.mail import EmailMessage
+        email = EmailMessage(
+            'Hello',
+            'Body goes here',
             ['r.szymansky@gmail.com'],
-            fail_silently=False,
+
         )
+        email.send()
         return super().form_valid(form)
 
 
