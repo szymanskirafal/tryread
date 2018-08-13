@@ -12,11 +12,7 @@ urlpatterns = [
         TemplateView.as_view(template_name="pages/about.html"),
         name="about",
     ),
-    path(
-        "reader/",
-        TemplateView.as_view(template_name="pages/reader.html"),
-        name="reader",
-    ),
+
     # Django Admin, use {% url 'admin:index' %}
     path(settings.ADMIN_URL, admin.site.urls),
     # User management
@@ -26,6 +22,7 @@ urlpatterns = [
     ),
     path("accounts/", include("allauth.urls")),
     # Your stuff: custom urls includes go here
+    path("read/", include("read.urls", namespace="read")),
     path("writer/", include("tryread.writer.urls", namespace="writer")),
 
 ] + static(
