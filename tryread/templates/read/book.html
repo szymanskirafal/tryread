@@ -2,22 +2,20 @@
 {% block content %}
 
 
-{% include "_nav2.html" %}
 <div class="container py-5">
   <h1>{{ book.title }}</h1>
   <p>by {{ book.author }}</p>
   <p>Subtitle: {{ book.subtitle }}</p>
   <p>Description: {{ book.description }}</p>
-  <p>Tags: {{ book.tags }}</p>
   <br><br>
   <p>Chapters:</p>
   {% for chapter in chapters %}
-    <a href="{% url 'read:chapter-detail' slug_book=book.slug slug_chapter=chapter.slug pk_chapter=chapter.pk %}">
+    <a href="{% url 'read:chapter-detail' slug_book=book.slug pk_book=book.pk pk_chapter=chapter.pk %}">
       {{ chapter.nr }}. {{ chapter }}
     </a>
     <br><br>
   {% endfor %}
-  <br><br>
+  
 
 
 </div>

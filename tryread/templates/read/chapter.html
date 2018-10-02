@@ -2,7 +2,6 @@
 {% block content %}
 
 
-{% include "_nav2.html" %}
 <div id="fb-root"></div>
 <script>(function(d, s, id) {
   var js, fjs = d.getElementsByTagName(s)[0];
@@ -14,7 +13,7 @@
 
 <div class="container py-5">
   <h1>Chapter {{ chapter.nr }}. {{ chapter.title }}</h1>
-  <p>from {{ chapter.book }}</p>
+  <p>{{ chapter.book }}</p>
   <br><br>
   {% for element in elements %}
     {% if element.picture %}
@@ -25,10 +24,20 @@
     {% endif %}
   {% endfor %}
   <br><br>
+  <div class="text-center">
 
-  <div class="fb-share-button" data-href="https://www.tryread.com/{% url 'read:book-detail' slug_book=chapter.book.slug pk_book=chapter.book.pk %}" data-layout="button" data-size="large" data-mobile-iframe="true"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.tryread.com%2F&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Share</a></div>
+    <div class="fb-share-button" data-href="https://www.tryread.com/{% url 'read:book-detail' slug_book=chapter.book.slug pk_book=chapter.book.pk %}" data-layout="button" data-size="large" data-mobile-iframe="true"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.tryread.com%2F&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Share</a></div>
 
-
+  </div>
+  <br><br>
+  <div class="text-center">
+    {% if chapter.previous_chapter_pk %}
+      <a href="{% url 'read:chapter-detail' slug_book=chapter.book.slug pk_book=chapter.book.pk pk_chapter=chapter.previous_chapter_pk %}" class="btn btn-lg btn-outline-dark" role="button"><<</a>
+    {% endif %}
+    {% if chapter.next_chapter_pk %}
+      <a href="{% url 'read:chapter-detail' slug_book=chapter.book.slug pk_book=chapter.book.pk pk_chapter=chapter.next_chapter_pk %}" class="btn btn-lg btn-outline-secondary" role="button">>></a>
+    {% endif %}
+  </div>
 </div>
 
 

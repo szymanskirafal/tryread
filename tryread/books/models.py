@@ -74,6 +74,22 @@ class Chapter(TimeStampedModel):
     def get_absolute_url(self):
         return reverse('chapter', kwargs={'pk_chapter': self.id})
 
+    def next_chapter_pk(self):
+        if Chapter.objects.filter(book=self.book, nr = self.nr+1).exists():
+            next_chapter = Chapter.objects.filter(book=self.book, nr = self.nr+1).get()
+            next_chapter_pk = next_chapter.pk
+        else:
+            next_chapter_pk = None
+        return next_chapter_pk
+
+    def previous_chapter_pk(self):
+        if Chapter.objects.filter(book=self.book, nr = self.nr-1).exists():
+            previous_chapter = Chapter.objects.filter(book=self.book, nr = self.nr-1).get()
+            previous_chapter_pk = previous_chapter.pk
+        else:
+            previous_chapter_pk = None
+        return previous_chapter_pk
+
 
 
 class Text(TimeStampedModel):

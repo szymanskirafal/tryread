@@ -11,7 +11,7 @@ urlpatterns = [
         name='book-detail'
     ),
     path(
-        '<slug:slug_book>/<slug:slug_chapter>/<int:pk_chapter>/',
+        '<slug:slug_book>/<int:pk_book>/<int:pk_chapter>/',
         view=views.ReadChapterDetailView.as_view(),
         name='chapter-detail'
     ),
