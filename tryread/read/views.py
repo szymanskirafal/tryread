@@ -18,9 +18,8 @@ class ReadBooksListView(LoginRequiredMixin, FormMixin, ListView):
     template_name = "read/books.html"
 
     def get_queryset(self):
-
-        queryset = Book.objects.only(
-            'pk', 'author', 'title', 'slug').select_related('author')
+        queryset = Book.objects.only('pk', 'author', 'title', 'slug')
+        queryset = queryset.select_related('author')
         if self.request.GET.get('author'):
             author_submited_by_user = self.request.GET.get('author')
             if not author_submited_by_user == '':
@@ -45,19 +44,16 @@ class ReadBookDetailView(LoginRequiredMixin, DetailView):
     template_name = "read/book.html"
 
     def get_context_data(self, **kwargs):
-        """Insert the single object into the context dict."""
-        context = {}
+        context = super().get_context_data(**kwargs)
+        book = self.object
+        chapters = book.chapters.all()
+        context['chapters'] = chapters
+        return context
 
-        if self.object:
-            book = self.object
-            #context['object'] = self.object
-            #context['chapters'] = Chapter.objects.all().filter(book=self.object)
-            context['chapters'] = book.chapters.all()
-            context_object_name = self.get_context_object_name(book)
-            if context_object_name:
-                context[context_object_name] = book
-        context.update(kwargs)
-        return super().get_context_data(**context)
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        queryset = queryset.select_related('author')
+        return queryset
 
 
 class ReadChapterDetailView(LoginRequiredMixin, PicturesAndTextAsElementsMixin, DetailView):
