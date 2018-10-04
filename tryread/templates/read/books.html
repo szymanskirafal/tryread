@@ -4,95 +4,19 @@
 
 <div class="container py-5">
   <h1>Books</h1>
-  <form method="get">
-
-    {{ form }}
-    <input type="submit" value="Submit" />
-  </form>
-
-  <form>
-    <p>
-      <button class="btn btn-outline-secondary" type="button" data-toggle="collapse" data-target="#collapseSearchOptions" aria-expanded="false" aria-controls="collapseExample">
-        Categories, tags, filters...
-      </button>
-    </p>
-
-    <div class="collapse" id="collapseSearchOptions">
-      <div class="card card-body">
-        <div class="form-group">
-          <label for="exampleFormControlTextarea1"></label>
-          <input class="form-control" type="text" placeholder="Search by title or author">
-        </div>
-        <div class="form-group">
-          <select class="form-control" id="exampleFormControlSelect1">
-            <option>All categories</option>
-            <option>Romance</option>
-            <option>Thriller</option>
-            <option>Historic</option>
-            <option>Life</option>
-            <option>Drama</option>
-          </select>
-        </div>
-        <p>
-          <button class="btn btn-outline-secondary" type="button" data-toggle="collapse" data-target="#collapseTags" aria-expanded="false" aria-controls="collapseExample">
-            # Tags
-          </button>
-        </p>
-        <div class="collapse" id="collapseTags">
-          <div class="card card-body">
-            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
-          </div>
-          <br><br>
-        </div>
-        <p>
-          <button class="btn btn-outline-secondary" type="button" data-toggle="collapse" data-target="#collapseFilters" aria-expanded="false" aria-controls="collapseExample">
-            Filters
-          </button>
-        </p>
-        <div class="collapse" id="collapseFilters">
-          <div class="card card-body">
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-              <label class="form-check-label" for="defaultCheck1">
-                Default checkbox
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-              <label class="form-check-label" for="defaultCheck1">
-                Default checkbox
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-              <label class="form-check-label" for="defaultCheck1">
-                Default checkbox
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-              <label class="form-check-label" for="defaultCheck1">
-                Default checkbox
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-              <label class="form-check-label" for="defaultCheck1">
-                Default checkbox
-              </label>
-            </div>
-          </div>
-          <br><br>
-        </div>
-        <button type="submit" class="btn btn-outline-dark">Submit</button>
-      </div>
+  <p>
+    <button class="btn btn-outline-secondary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+      Search
+    </button>
+  </p>
+  <div class="collapse" id="collapseExample">
+    <div class="card card-body">
+      <form method="get">
+        {{ form }}
+        <input type="submit" value="Submit" />
+      </form>
     </div>
-  </form>
-
-
-
-
-
+  </div>
   {% for book in books %}
     <p><a href="{% url 'read:book-detail' slug_book=book.slug pk_book=book.pk %}">{{ book.title }}</a> by {{ book.author }}</p>
   {% endfor %}
