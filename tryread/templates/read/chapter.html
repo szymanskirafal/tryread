@@ -26,13 +26,17 @@
   <br><br>
   <div class="text-center">
 
-    <div class="fb-share-button" data-href="https://www.tryread.com/{% url 'read:book-detail' slug_book=chapter.book.slug pk_book=chapter.book.pk %}" data-layout="button" data-size="large" data-mobile-iframe="true"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.tryread.com%2F&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Share</a></div>
+    <div class="fb-share-button" data-href="https://www.tryread.com/{% url 'read:book-detail' slug_book=chapter.book.slug pk_book=chapter.book.pk %}" data-layout="button" data-size="large" data-mobile-iframe="true">What a thing!<a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.tryread.com%2F&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Share</a></div>
 
   </div>
   <br><br>
   <div class="text-center">
+    <a href="" class="btn btn-lg btn-outline-secondary" role="button">Write to the author</a>
+  </div>
+  <br><br>
+  <div class="text-center">
     {% if chapter.previous_chapter_pk %}
-      <a href="{% url 'read:chapter-detail' slug_book=chapter.book.slug pk_book=chapter.book.pk pk_chapter=chapter.previous_chapter_pk %}" class="btn btn-lg btn-outline-dark" role="button"><<</a>
+      <a href="{% url 'read:chapter-detail' slug_book=chapter.book.slug pk_book=chapter.book.pk pk_chapter=chapter.previous_chapter_pk %}" class="btn btn-lg btn-outline-secondary" role="button"><<</a>
     {% endif %}
     {% if chapter.next_chapter_pk %}
       <a href="{% url 'read:chapter-detail' slug_book=chapter.book.slug pk_book=chapter.book.pk pk_chapter=chapter.next_chapter_pk %}" class="btn btn-lg btn-outline-secondary" role="button">>></a>
